@@ -57,7 +57,7 @@ fn solve(input: &str) -> u64 {
             break;
         };
 
-        if left.overlap(&right) {
+        if left.overlap(right) {
             ranges[left_idx].end = std::cmp::max(ranges[left_idx].end, ranges[right_idx].end);
             ranges[right_idx] = Range { start: 0, end: 0 };
             right_idx += 1;
