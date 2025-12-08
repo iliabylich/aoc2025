@@ -1,7 +1,7 @@
 use std::collections::{BinaryHeap, HashSet};
 
 fn main() {
-    println!("{}", solve(include_str!("input1"), 1000))
+    println!("{}", solve(include_str!("input1")))
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -55,7 +55,7 @@ impl<T> Ord for DistanceWithData<T> {
     }
 }
 
-fn solve(input: &str, iterations: u64) -> u64 {
+fn solve(input: &str) -> u64 {
     let dots = input.lines().map(Point::parse).collect::<Vec<_>>();
 
     let mut distances = BinaryHeap::new();
@@ -77,8 +77,8 @@ fn solve(input: &str, iterations: u64) -> u64 {
         .map(|dot_idx| HashSet::from([dot_idx]))
         .collect::<Vec<_>>();
 
-    for _ in 0..iterations {
-        // println!("\n\nIteration {iteration}");
+    loop {
+        // println!("\n\nIteration");
 
         let Some(DistanceWithData {
             data: (p1_idx, p2_idx),
@@ -121,17 +121,14 @@ fn solve(input: &str, iterations: u64) -> u64 {
 
         // println!("Into {merged:?}");
         circuits.push(merged);
+
+        if circuits.len() == 1 {
+            break (dots[p1_idx].x * dots[p2_idx].x) as u64;
+        }
     }
-
-    // println!("{circuits:?}");
-
-    let mut sizes: Vec<u64> = circuits.into_iter().map(|s| s.len() as u64).collect();
-    sizes.sort_unstable_by_key(|e| -(*e as i64));
-
-    sizes[0] * sizes[1] * sizes[2]
 }
 
 #[test]
 fn test() {
-    assert_eq!(solve(include_str!("input0"), 10), 40)
+    assert_eq!(solve(include_str!("input0")), 25272)
 }
