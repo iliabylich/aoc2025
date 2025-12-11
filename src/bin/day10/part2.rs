@@ -62,7 +62,7 @@ impl Machine {
         let mut equations = vec![];
 
         for (num_idx, num) in self.target.iter().copied().enumerate() {
-            let total: u8 = num.try_into().unwrap();
+            let total: u8 = num;
             let mut equation = Equation([false; 13], total);
 
             for (idx, combination) in self.combinations.iter().enumerate() {
